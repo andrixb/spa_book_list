@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:500,300,700,400' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link href="css/main.css" rel="stylesheet" />
+
+  <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script src="js/shared/angular.min.js"></script>
+  <script src="js/shared/ui-bootstrap-tpls-1.0.0.min.js"></script>
+</head>
+
+
+<body ng-app="bookTestApp">
+  <div class="header">
+    <div class="container">
+      <h1>Book Shop</h1>
+    </div>
+  </div>
+
+<div class="main" ng-controller="bookCtrl">
+
+<div class="search">
+  <div class="container">
+    <form class="form-inline">
+      <div class="form-group">
+        <label>Search by title</label>
+        <input type="text" ng-model="searchTitle" class="form-control" placeholder="Search">
+        <label>Search by author</label>
+        <input type="text" ng-model="searchAuthor" class="form-control" placeholder="Search">
+      </div>
+      <!-- FORM GROUP -->
+    </form>
+  </div>
+  <!-- CONTAINER -->
+</div>
+<!-- SEARCH -->
+
+
+<div class="container">
+  <div class="col-md-6">
+    <label for="searchByCategory">Filter by Category</label>
+    <select name="searchByCategory" ng-model="searchCategory">
+      <option value="">All</option>
+      <option ng-repeat="n in category" value="{{n}}">{{n}}</option>
+    </select>
+
+    <label for="searchByGenre">Filter by Genre</label>
+    <select name="searchByGenre" ng-model="searchGenre">
+      <option value="">All</option>
+      <option ng-repeat="n in genre" value="{{n}}">{{n}}</option>
+    </select>
+  </div>
+</div>
+
+  <div class="container">
+    <div ng-repeat="book in filtered  | filter:searchTitle | filter:searchAuthor | filter:searchCategory | filter:searchGenre | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit " class="col-md-6">
+      <div class="thumbnail">
+        <img ng-src="{{ book.cover }}">
+        <p class="title">{{ book.name }}</p>
+        <p class="author">{{ book.author.name }}</p>
+        <br />
+        <p class="category">{{ book.genre.category }}</p>
+        <p class="genre">{{ book.genre.name }}</p>
+        <br />
+        <p class="date">{{ book.published | date:'medium' }}</p>
+          <div class="rating">
+            <!-- <i class="fa fa-heart"></i> -->
+            <p class="likes">{{ book.likes }} </p>
+          </div><!-- RATING -->
+        </div><!-- THUMBNAIL -->
+
+      </div><!-- COL-MD-6-->
+    </div><!-- CONTAINER -->
+    <uib-pagination direction-links="false" total-items="totalItems" ng-model="currentPage" num-pages="noOfPages" boundary-links="false"></uib-pagination>
+
+  </div><!-- MAIN -->
+
+
+
+  <div class="footer">
+    <div class="container">
+      <h2>Available for iPhone and Android.</h2>
+      <img src="img/app-store.png" width="120px" />
+      <img src="img/google-play.png" width="110px" />
+    </div>
+  </div>
+
+  <!-- Modules -->
+  <script src="js/app.js"></script>
+  <!-- Controllers -->
+  <script src="js/controllers/BookCtrl.js"></script>
+  <!-- <script src="js/controllers/MainController.js"></script>
+        <script src="js/controllers/PageController.js"></script> -->
+
+  <!-- Services -->
+  <script src="js/services/bookListService.js"></script>
+
+  <!-- Directives -->
+
+</body>
+
+</html>
